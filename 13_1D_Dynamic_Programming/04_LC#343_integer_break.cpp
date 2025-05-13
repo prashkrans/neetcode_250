@@ -1,9 +1,10 @@
-/* LC# Integer Break
+/* LC#343 Integer Break
 */
 
 // 1. Rec without memo
-// O(n^n)
-// O(n)
+// Time: O(2^(n-1)) ~ O(2^n) and not O(n^n) 
+// Space: O(n) due to the rec stack
+
 
 class Solution {
     int rec(int n, int k) {
@@ -64,12 +65,39 @@ public:
         dp[0][2] = 1;
         for(int i=1; i<=n; i++) {
             for(int j=1; j<=i; j++) {
-                for(int k=0; k<3; k++) {
-                    if(k<2) dp[i][k] = 0;
-                    else dp[i][k] = max(dp[i][k], j * dp[i-j][k]);
+                int k = 0;
+                while(k<2) {
+                    dp[i][k] = max(dp[i][k], j * dp[i-j][k]);
+                    k++;
                 }
             }
         }
         return dp[n][2];
+    }
+};
+
+
+// 3. Bottom up (Yet to understand)
+
+class Solution {
+public:
+    int integerBreak(int n) {
+        if(n == 2) {
+            return 1;
+        }
+
+        vector<int> dp(n+1, 1);
+
+        int best = 0;
+        for(int i=2; i<n; i++) {
+            int w=i;
+            for(int j=w; j<=n; j++) {
+                dp[j] = max(dp[j], w*dp[j-w]);
+            }
+            best = max(best, dp[n]);
+        }
+
+        return best;
+        
     }
 };
