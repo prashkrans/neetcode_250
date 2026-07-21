@@ -1,4 +1,4 @@
-/* 1405. Longest Happy String
+/* LC#1405. Longest Happy String
 
 ### Main logic: Greedy
 Two cases:
